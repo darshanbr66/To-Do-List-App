@@ -7,35 +7,34 @@ const TodoList = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const res = await axios.get('/api/todos');
-        console.log('Response from backend:', res.data); // Log the entire response
-        // Ensure the response is an array before setting it
+        const res = await axios.get(`${API_BASE_URL}/todos`);
+        console.log('Response from backend:', res.data);
         setTodos(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
-        // Handle the error gracefully
-        console.error('Error fetching todos:', err); // Log the error for debugging
+        console.error('Error fetching todos:', err);
         setError('Failed to connect to the backend. Please check your connection or try again later.');
       } finally {
         setLoading(false);
       }
     };
-
     fetchTodos();
-  }, []);
+  }, [API_BASE_URL]);
 
   const addTodo = () => {
     if (!title) return;
-    axios.post('/api/todos', { title })
+    axios.post(`${API_BASE_URL}/todos`, { title })
       .then(res => setTodos([...todos, res.data]))
       .catch(err => setError('Failed to add todo. Please try again.'));
     setTitle('');
   };
 
   const deleteTodo = (id) => {
-    axios.delete(`/api/todos/${id}`)
+    axios.delete(`${API_BASE_URL}/todos/${id}`)
       .then(() => setTodos(todos.filter(todo => todo._id !== id)))
       .catch(err => setError('Failed to delete todo. Please try again.'));
   };
@@ -44,7 +43,6 @@ const TodoList = () => {
     return <div>Loading...</div>;
   }
 
-  // Display error message if backend connection fails
   if (error) {
     return (
       <div className="alert alert-danger">
@@ -53,19 +51,9 @@ const TodoList = () => {
     );
   }
 
-  // Display a message if there are no todos
-  if (todos.length === 0) {
-    return (
-      <div className="alert alert-info">
-        No todos available. Please add some!
-      </div>
-    );
-  }
-
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">To-Do List</h1>
-      
       <div className="input-group mb-3">
         <input
           type="text"
@@ -76,7 +64,6 @@ const TodoList = () => {
         />
         <button className="btn btn-success" onClick={addTodo}>Add</button>
       </div>
-
       <ul className="list-group">
         {todos.map(todo => (
           <li key={todo._id} className="list-group-item d-flex justify-content-between align-items-center">
