@@ -11,10 +11,13 @@ const TodoList = () => {
     const fetchTodos = async () => {
       try {
         const res = await axios.get('/api/todos');
-        console.log(res.data); // Log the response data to check its structure
-        setTodos(res.data);
+        console.log('Response from backend:', res.data); // Log the entire response
+        // Ensure the response is an array before setting it
+        setTodos(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
-        setError('Failed to connect to the backend. Please try again later.');
+        // Handle the error gracefully
+        console.error('Error fetching todos:', err); // Log the error for debugging
+        setError('Failed to connect to the backend. Please check your connection or try again later.');
       } finally {
         setLoading(false);
       }
@@ -41,12 +44,22 @@ const TodoList = () => {
     return <div>Loading...</div>;
   }
 
+  // Display error message if backend connection fails
   if (error) {
-    return <div className="alert alert-danger">{error}</div>;
+    return (
+      <div className="alert alert-danger">
+        {error}
+      </div>
+    );
   }
 
+  // Display a message if there are no todos
   if (todos.length === 0) {
-    return <div className="alert alert-info">No todos available. Please add some!</div>;
+    return (
+      <div className="alert alert-info">
+        No todos available. Please add some!
+      </div>
+    );
   }
 
   return (
