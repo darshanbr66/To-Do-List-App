@@ -4,7 +4,7 @@ const Todo = require('../models/Todo');
 const router = express.Router();
 
 // Create a to-do
-router.post('/todos', async (req, res) => {
+router.post('/todos', async (req, res) => {  //todos this is rout/path
   const { title } = req.body;
   try {
     const newTodo = new Todo({
@@ -48,4 +48,4 @@ router.delete('/todos/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = router; //exporting

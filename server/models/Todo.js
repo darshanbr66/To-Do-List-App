@@ -1,3 +1,4 @@
+// Todo dable/document created in magoDB
 // models/Todo.js
 const mongoose = require('mongoose');
 
@@ -9,7 +10,7 @@ const TodoSchema = new mongoose.Schema({
   completed: {
     type: Boolean,
     default: false,
-  },
+  }
 });
 
 module.exports = mongoose.model('Todo', TodoSchema);
