@@ -3,7 +3,7 @@ const express = require('express');
 const Todo = require('../models/Todo');
 const router = express.Router();
 
-// Create a to-do
+// Create a to-do  ...
 router.post('/todos', async (req, res) => {  //todos this is rout/path
   const { title } = req.body;
   try {
