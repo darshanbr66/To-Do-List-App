@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'; //use comunicate with backend
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    axios.get('/api/todos')
+    axios.get('/api/todos')     //frontent and backend connected here and /api is a rout/path and  acces it
       .then(res => setTodos(res.data))
       .catch(err => console.error(err));
   }, []);
