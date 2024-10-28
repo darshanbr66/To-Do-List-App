@@ -12,7 +12,7 @@ const TodoList = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/todos`);
+        const res = await axios.get(`${API_BASE_URL}/api/todos`);
         console.log('Response from backend:', res.data);
         setTodos(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
@@ -27,14 +27,14 @@ const TodoList = () => {
 
   const addTodo = () => {
     if (!title) return;
-    axios.post(`${API_BASE_URL}/todos`, { title })
+    axios.post(`${API_BASE_URL}/api/todos`, { title })
       .then(res => setTodos([...todos, res.data]))
       .catch(err => setError('Failed to add todo. Please try again.'));
     setTitle('');
   };
 
   const deleteTodo = (id) => {
-    axios.delete(`${API_BASE_URL}/todos/${id}`)
+    axios.delete(`${API_BASE_URL}/api/todos/${id}`)
       .then(() => setTodos(todos.filter(todo => todo._id !== id)))
       .catch(err => setError('Failed to delete todo. Please try again.'));
   };
